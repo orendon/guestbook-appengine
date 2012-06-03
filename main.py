@@ -22,7 +22,7 @@ class MainHandler(webapp.RequestHandler):
            'user': user,
            'greetings': greetings,
            'login': users.create_login_url(self.request.uri),
-           'logout': users.create.logout_url(self.request.uri),
+           'logout': users.create_logout_url(self.request.uri),
           }
         tmpl = path.join(path.dirname(__file__), 'static/html/index.html')
         self.response.out.write(render(tmpl, context))
