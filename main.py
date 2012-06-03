@@ -2,7 +2,7 @@
 from google.appengine.ext import db, webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from cgi import escape
-from google.appengine.api import users
+from google.appengine.api import memcache, users
 from os import path
 from google.appengine.ext.webapp.template import render
 
@@ -15,9 +15,11 @@ class MainHandler(webapp.RequestHandler):
     def get(self):
         #self.response.headers['Content-Type'] = 'text/html'
         user = users.get_current_user()
-        
-        #greetings = db.GqlQuery('SELECT * FROM Greeting ORDER BY date DESC LIMIT 10')
-        greetings = Greeting.all().order('-date').fetch(10)
+        greetings = memcache.get('greetings')
+        if not greetings:
+            #greetings = db.GqlQuery('SELECT * FROM Greeting ORDER BY date DESC LIMIT 10')
+            greetings = Greeting.all().order('-date').fetch(10)
+            memcache.add('greetings', greetings, 15)
         context = {
            'user': user,
            'greetings': greetings,
@@ -35,6 +37,7 @@ class GuestBook(webapp.RequestHandler):
             greeting.author = user
         greeting.content = escape(self.request.get('content'))
         greeting.put()
+        memcache.delete('greetings')
         self.redirect('/')
         #self.response.out.write('<h2>you wrote:</h2> %s' % escape(self.request.get('content')))
 
