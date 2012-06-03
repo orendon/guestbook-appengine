@@ -1,0 +1,19 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+</head>
+<body>
+	Hello
+	{% if user %}
+		{{ user.nickname }}!
+		[<a href="{{ logout }}"><b>sing out</b></a>]
+	{% else %}
+		World!
+		[<a href="{{ login }}"><b>sing in</b></a>]
+	{% endif %}
+
+	{% block content %}
+	{% endblock %}
+</body>
+</html>
+
