@@ -1,5 +1,27 @@
 
 body {
+	background: #255;
+	color: #bdd;
 	font-family: Verdana, Helvetica, sans-serif;
-	background-color: #DDDDDD;
+	padding: 0 5em;
+	margin 0;
+}
+
+h1 {
+	background: #577;
+	padding: 2em 1em;
+}
+
+h2 {
+	border-top: 1px dotted #fff;
+	color: #add;
+	margin-top: 2em;
+}
+
+a {
+	color: #9ff;
+}
+
+p {
+	margin: 1em 0;
 }
