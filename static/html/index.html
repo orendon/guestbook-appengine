@@ -17,7 +17,7 @@
 	<h2>Top 10 most recent guestbook entries</h2>
 	{% for greeting in greetings %}
 		<br/>
-		<small>[<i>{{ greeting.name.ctime }}</i>]</small>
+		<small>[<i>{{ greeting.date.ctime }}</i>]</small>
 		<b>
 			{% if greeting.author %}
 				<code>{{ greeting.author.nickname }}</code>
@@ -25,7 +25,7 @@
 				<i>anonymous</i>
 			{% endif %}
 		</b>
-		wrote {{ greeting.content|escape }}
+		wrote: &quot; {{ greeting.content|escape }} &quot;
 	{% endfor %}
 	<hr>
 
