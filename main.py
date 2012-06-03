@@ -10,22 +10,21 @@ class Greeting(db.Model):
     content = db.StringProperty(multiline=True)
     date = db.DateTimeProperty(auto_now_add=True)
     author = db.UserProperty()
-
+    
 class MainHandler(webapp.RequestHandler):
     def get(self):
         #self.response.headers['Content-Type'] = 'text/html'
         user = users.get_current_user()
-        if not user:
-            self.redirect(users.create_login_url(self.request.uri))
-            return
         
         #greetings = db.GqlQuery('SELECT * FROM Greeting ORDER BY date DESC LIMIT 10')
         greetings = Greeting.all().order('-date').fetch(10)
         context = {
            'user': user,
            'greetings': greetings,
+           'login': users.create_login_url(self.request.uri),
+           'logout': users.create.logout_url(self.request.uri),
           }
-        tmpl = path.join(path.dirname(__file__), 'index.html')
+        tmpl = path.join(path.dirname(__file__), 'static/html/index.html')
         self.response.out.write(render(tmpl, context))
 
 class GuestBook(webapp.RequestHandler):
