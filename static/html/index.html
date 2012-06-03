@@ -1,10 +1,39 @@
-<html><body>Hello {{ user.nickname }}!
-<h1>My GuestBook</h1><ol>
-{% for greeting in greetings %}
-    <li> {{ greeting.content|escape }}
-{% endfor %}
-</ol><hr>
-<form action="/sign" method=post>
-    <textarea name=content rows=3 cols=60></textarea>
-    <br><input type=submit value="Sign Guestbook">
-</form></body></html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+</head>
+<body>
+	Hello
+	{% if user %}
+		{{ user.nickname }}!
+		[<a href="{{ logout }}"><b>sing out</b></a>]
+	{% else %}
+		World!
+		[<a href="{{ login }}"><b>sing in</b></a>]
+	{% endif %}
+
+	<h1>Python GuestBook</h1>
+
+	<h2>Top 10 most recent guestbook entries</h2>
+	{% for greeting in greetings %}
+		<br/>
+		<small>[<i>{{ greeting.name.ctime }}</i>]</small>
+		<b>
+			{% if greeting.author %}
+				<code>{{ greeting.author.nickname }}</code>
+			{% else %}
+				<i>anonymous</i>
+			{% endif %}
+		</b>
+		wrote {{ greeting.content|escape }}
+	{% endfor %}
+	<hr>
+
+	<form action="/sign" method=post>
+    	<textarea name=content rows=3 cols=60></textarea>
+    	<br>
+    	<input type=submit value="Sign Guestbook">
+	</form>
+</body>
+</html>
+
